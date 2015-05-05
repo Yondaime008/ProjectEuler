@@ -1,3 +1,5 @@
+import time
+
 def is_eleven_multiplier(n):
     even_sum = 0
     uneven_sum = 0
@@ -11,5 +13,7 @@ def is_eleven_multiplier(n):
         print("isElevenMultiplier")
     else:
         print("NotElevenMultiplier")
-
+tic = time.clock()
 is_eleven_multiplier(40561817703823564929)
+toc = time.clock()
+print("TIME CONSUMED",(toc - tic)," s")
