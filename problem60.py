@@ -8,6 +8,7 @@ criteria:
 -two concatenate = prime
 """
 import itertools
+import time
 
 def isprime(limit):
    a = [True] * limit
@@ -33,17 +34,88 @@ def valid_five(a, b, c, d, e, lop):
     list.append(c)
     list.append(d)
     list.append(e)
-    for i in itertools.permutations(list, 2):
+    for i in itertools.combinations(list, 2):
         num = str(i[0])+str(i[1])
-        if int(num) not in lop:
+        num_inv = str(i[1])+ str(i[0])
+        if int(num) not in lop or int(num_inv) not in lop:
             return False
     return True
 
+
+def valid_four(a, b, c, d, lop):
+    list = []
+    list.append(a)
+    list.append(b)
+    list.append(c)
+    list.append(d)
+    for i in itertools.combinations(list, 2):
+        num = str(i[0])+str(i[1])
+        num_inv = str(i[1])+ str(i[0])
+
+        if int(num) not in lop or int(num_inv) not in lop:
+            return False
+    return True
+
+
+def valid_three(a, b, c, lop):
+    list = []
+    list.append(a)
+    list.append(b)
+    list.append(c)
+    for i in itertools.combinations(list, 2):
+        num = str(i[0])+str(i[1])
+        num_inv = str(i[1])+ str(i[0])
+        if int(num) not in lop or int(num_inv) not in lop:
+            return False
+    return True
+
+
+def valid_two(a, b, lop):
+    list = []
+    list.append(a)
+    list.append(b)
+    for i in itertools.combinations(list, 2):
+        num = str(i[0])+str(i[1])
+        num_inv = str(i[1])+ str(i[0])
+        if int(num) not in lop or int(num_inv) not in lop:
+            return False
+    return True
+
+tic = time.clock()
+
 minimum = 30000
 
-lop = list(list_prime(10**3))
+lop = list(list_prime(10**4))
+lop1 = list(list_prime(10**6))
+lop.remove(2)
+lop.remove(5)
 
-for j in itertools.permutations(lop, 5):
-    if valid_five(j[0], j[1], j[2], j[3], j[4], lop) and j[0]+j[1]+j[2]+j[3]+j[4] < minimum:
-        print(j[0], j[1], j[2], j[3], j[4], minimum)
 
+def find_next_element_two(i, list1, list2):
+    for b in list1:
+        if valid_two(i, b, list2):
+            yield b
+
+for a in lop:
+    next_elements_two = list(find_next_element_two(a, lop, lop1))
+    for b in next_elements_two:
+        for c in next_elements_two:
+            if c != a and c != b and valid_three(a, b, c, lop1):
+                for d in next_elements_two:
+                    if d != a and d != b and d != c and valid_four(a, b, c, d, lop1):
+                        print(a, b, c, d)
+                        for e in next_elements_two:
+                            if e != a and e != b and e != c and e != d and a+b+c+d+e < minimum and valid_five(a, b, c, d, e, lop1):
+                                minimum = a+b+c+d+e
+                                print(a, b, c, d, e, minimum)
+
+toc = time.clock()
+print("Found", a, b, c, d, e, "in", toc-tic, "s")
+
+
+"""
+for j in itertools.permutations(lop, 4):
+    if valid_five(j[0], j[1], j[2], j[3], a, lop) and j[0]+j[1]+j[2]+j[3]+a < minimum:
+        print(j[0], j[1], j[2], j[3], a, minimum)
+        minimum = j[0]+j[1]+j[2]+j[3]+a
+"""
