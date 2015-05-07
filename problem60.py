@@ -108,6 +108,12 @@ for a in lop:
                             if e != a and e != b and e != c and e != d and a+b+c+d+e < minimum and valid_five(a, b, c, d, e, lop1):
                                 minimum = a+b+c+d+e
                                 print(a, b, c, d, e, minimum)
+                            else:
+                                next_elements_two.remove(e)
+                    else:
+                        next_elements_two.remove(d)
+            else:
+                next_elements_two.remove(c)
 
 toc = time.clock()
 print("Found", a, b, c, d, e, "in", toc-tic, "s")
