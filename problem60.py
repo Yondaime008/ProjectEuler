@@ -99,29 +99,23 @@ def find_next_element_two(i, list1, list2):
 for a in lop:
     next_elements_two = list(find_next_element_two(a, lop, lop1))
     for b in next_elements_two:
-        for c in next_elements_two:
-            if c != a and c != b and valid_three(a, b, c, lop1):
-                for d in next_elements_two:
-                    if d != a and d != b and d != c and valid_four(a, b, c, d, lop1):
-                        print(a, b, c, d)
-                        for e in next_elements_two:
-                            if e != a and e != b and e != c and e != d and a+b+c+d+e < minimum and valid_five(a, b, c, d, e, lop1):
-                                minimum = a+b+c+d+e
-                                print(a, b, c, d, e, minimum)
-                            else:
-                                next_elements_two.remove(e)
-                    else:
-                        next_elements_two.remove(d)
-            else:
-                next_elements_two.remove(c)
+        if b != a:
+            for c in next_elements_two:
+                if c != a and c != b and valid_three(a, b, c, lop1):
+                    for d in next_elements_two:
+                        if d != a and d != b and d != c and valid_four(a, b, c, d, lop1):
+                            print(a, b, c, d)
+                            for e in next_elements_two:
+                                if e != a and e != b and e != c and e != d and a+b+c+d+e < minimum and valid_five(a, b, c, d, e, lop1):
+                                    minimum = a+b+c+d+e
+                                    print(a, b, c, d, e, minimum)
+                                else:
+                                    next_elements_two.remove(e)
+                        else:
+                            next_elements_two.remove(d)
+                else:
+                    next_elements_two.remove(c)
+    lop.remove(a)
 
 toc = time.clock()
 print("Found", a, b, c, d, e, "in", toc-tic, "s")
-
-
-"""
-for j in itertools.permutations(lop, 4):
-    if valid_five(j[0], j[1], j[2], j[3], a, lop) and j[0]+j[1]+j[2]+j[3]+a < minimum:
-        print(j[0], j[1], j[2], j[3], a, minimum)
-        minimum = j[0]+j[1]+j[2]+j[3]+a
-"""
